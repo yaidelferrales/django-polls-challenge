@@ -10,7 +10,7 @@ You have the following tasks to perform on this project:
 - Add a UI framework to style the frontend.
 - Remove the few instances of inline styles.
 - Secure the UI so you require username and password to see the polls.
-- Submit the code as a PR in a branch called '<your-name>-challenge-<date>'
+- Submit the code as a PR in a branch called `<your-name>-challenge-<date>`
 
 Feel free to take some time to familiarize yourself with the environment before starting the assignment.
 
