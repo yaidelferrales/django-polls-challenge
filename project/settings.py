@@ -36,6 +36,7 @@ SESSION_COOKIE_SAMESITE = 'None'
 # Application definition
 
 INSTALLED_APPS = [
+    'account.apps.AccountConfig',
     'polls.apps.PollsConfig',
     'django.contrib.admin',
     'django.contrib.auth',
