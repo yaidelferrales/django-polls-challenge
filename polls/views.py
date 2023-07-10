@@ -1,40 +1,49 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
-from django.views import generic
+from django.views.generic import (ListView, DetailView)
+from django.http import HttpResponseRedirect, HttpRequest
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators  import login_required
 
-from .models import Choice, Question
 
+from .models import Question, Choice
 
-class IndexView(generic.ListView):
+class QuestionViewList(LoginRequiredMixin, ListView):
+    model = Question
     template_name = 'polls/index.html'
+    queryset = Question.objects.all()
     context_object_name = 'latest_question_list'
-
-    def get_queryset(self):
-        """Return the last five published questions."""
-        return Question.objects.order_by('-pub_date')[:5]
-
-
-class DetailView(generic.DetailView):
+    paginate_by=5
+    
+class QuestionDetailView(LoginRequiredMixin, DetailView):
     model = Question
-    template_name = '/polls/detail.html'
+    template_name = 'polls/detail.html'
 
 
-class ResultsView(generic.DetailView):
+class ResultsView(LoginRequiredMixin, DetailView):
     model = Question
-    template_name = '/polls/results.html'
+    template_name = 'polls/results.html'
 
-
-def vote(request, question_id):
+@login_required
+def vote(request: HttpRequest, question_id):
     question = get_object_or_404(Question, pk=question_id)
     try:
-        selected_choice = question.choice_set.get(pk=request.POST['choice'])
+        selected_list = request.POST.getlist('choice') 
+        if selected_list:    
+            choice_obj = []
+            for selected in selected_list:
+                obj_result = question.choice_set.get(pk=selected)
+                if obj_result:
+                    choice_obj.append(obj_result)
+        else:
+            raise KeyError     
     except (KeyError, Choice.DoesNotExist):
-        return render(request, '/polls/detail.html', {
+        return render(request, 'polls/detail.html', {
             'question': question,
             'error_message': "You didn't select a choice.",
         })
     else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        return HttpResponseRedirect(reverse('polls:results', args=(question.id,)))
+        for selected in choice_obj:
+            selected.votes += 1
+            selected.save()
+        return HttpResponseRedirect(reverse('polls:polls_results', args=(question.id,)))

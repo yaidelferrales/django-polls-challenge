@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Dashboard
+{% endblock title %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+
+    <p>
+        Welcome to Web Challenge Project "Docker, Django and PostgreSQL, go to polls on vote -> <a href="{% url 'polls:polls_list' %}" class="button">
+            Vayu Challenge!
+        </a>
+    </p>
+    <p>
+        Welcome to dashboard. You can {% comment %} <a href="{% url 'edit' %}">edit your profile</a> {% endcomment %}
+        or <a href="{% url 'password_change' %}">change your password</a>
+    </p>
+{% endblock %}

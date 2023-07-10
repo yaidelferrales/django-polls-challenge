@@ -2,5 +2,10 @@ from django.contrib import admin
 
 from .models import Question, Choice
 
-admin.site.register(Question)
-admin.site.register(Choice)
+@admin.register(Question)
+class QuestionAdmin(admin.ModelAdmin):
+    list_display = ('question_text', 'pub_date')
+    
+@admin.register(Choice)
+class ChoiceAdmin(admin.ModelAdmin):
+    list_display = ('id','choice_text', 'votes', 'question',)

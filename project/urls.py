@@ -18,7 +18,8 @@ from django.urls import include, path
 from django.shortcuts import redirect
 
 urlpatterns = [
-    path('', lambda req: redirect('/polls/')),
-    path('polls/', include('polls.urls')),
+    path('', lambda req: redirect('/accounts/login/')),
     path('admin/', admin.site.urls),
+    path('polls/', include('polls.urls', namespace='polls')),
+    path('accounts/', include('account.urls')),
 ]
