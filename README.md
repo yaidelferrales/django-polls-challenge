@@ -26,3 +26,4 @@ This pad is running a Django application, with a built-in connection to a Postgr
 ### Django admin
 
 The Django admin is served on the default path `/admin` and a super user has to be created using the command `docker-compose run --rm web python manage.py createsuperuser`
+# challenge-vayu
